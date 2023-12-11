@@ -18,18 +18,101 @@
 // Arguments:
 //           v: A reference to the vector to analyze.
 // Returns: A boolean value: True for bitonic sequences, false otherwise.
-bool is_bitonic(const std::vector<int> &v){
+// bool is_bitonic(const std::vector<int> &v) {
     
-    // Write your code here
+//     // Write your code here
+//     int n = v.size();
+//     int bitonicPoint = -1;
 
-    return false;
+//     if (n < 3) {
+//         return false;
+//     }
+
+//     for (int i=1; i < n-1; i++) {
+//         if (v[i] > v[i-1] && v[i] > v[i+1]) {
+//             bitonicPoint = i;
+//             break;
+//         }
+//     }
+
+//     if (bitonicPoint == -1 || bitonicPoint == 0 || bitonicPoint == n-1 ) {
+//         return false;
+//     }
+
+//     for (int i =0; i<bitonicPoint; i++) {
+//         if (v[i] >= v[i+1]) {
+//             return false;
+//         }
+//     }
+
+//     for (int i = bitonicPoint + 1; i < n-1; i++) {
+//         if (v[i] <= v[i+1]) {
+//             return false;
+//         }
+//     }
+
+//     return true;
+// }
+
+bool is_bitonic(const std::vector<int> &v){
+    int count = v.size();
+    if (count < 2) return true;
+
+    bool rising = false;
+    int i = 0;
+
+    // Ignore starting repeated values
+    while (i < (count - 1) && v[i] == v[i + 1])
+        i++;
+    if (i == (count - 1))  // All values are the same
+        return true;
+
+    // First slope
+    if (v[i] < v[i + 1])
+        while (i < (count - 1) && v[i] <= v[i + 1])
+            i++;
+    else
+        while (i < (count - 1) && v[i] >= v[i + 1])
+            i++;
+    if (i == (count - 1))
+        return true;  // Monotonic sequence
+
+    // Second slope
+    if (v[i] < v[i + 1])
+        while (i < (count - 1) && v[i] <= v[i + 1])
+            i++;
+    else
+        while (i < (count - 1) && v[i] >= v[i + 1])
+            i++;
+    if (i == (count - 1))
+        return true;  // Bitonic sequence
+
+    // Third slope
+    if (v[i] < v[i + 1]) {
+        rising = true;
+        while (i < (count - 1) && v[i] <= v[i + 1])
+            i++;
+    } else {
+        rising = false;
+        while (i < (count - 1) && v[i] >= v[i + 1])
+            i++;
+    }
+    if (i < (count - 1))
+        return false;  // Not a bitonic sequence because there is a 4th slope
+
+    // 3 slopes
+    if (rising && v[i] <= v[0])  // The last rising slope is the same as the first slope
+        return true;
+    if (!rising && v[i] >= v[0])  // The last falling slope is the same as the first slope
+        return true;
+    return false;  // The third slope is different from the first one (there is a 4th slope)
 }
 
 // Main function
 int main(){
     // Uncomment one of these lines and make sure you get the result at the right. 
     
-    std::vector<int> myvec = {1, 2, 5, 4, 3};  // Yes
+    // std::vector<int> myvec = {1, 2, 5, 4, 3};  // Yes
     // std::vector<int> myvec = {1, 1, 1, 1, 1};  // Yes
     // std::vector<int> myvec = {3, 4, 5, 2, 2};  // Yes
     // std::vector<int> myvec = {3, 4, 5, 2, 4};  // No
@@ -37,9 +120,9 @@ int main(){
     // std::vector<int> myvec = {1, 2, 3, 1, 2};  // No
     // std::vector<int> myvec = {5, 4, 6, 2, 6};  // No
     // std::vector<int> myvec = {5, 4, 3, 2, 1};  // Yes
-    // std::vector<int> myvec = {5, 4, 3, 2, 6};  // Yes
+    std::vector<int> myvec = {5, 4, 3, 2, 6};  // Yes
     // std::vector<int> myvec = {5, 4, 6, 5, 4};  // No
-    // std::vector<int> myvec = {5, 4, 6, 5, 5};  // Yes
+    std::vector<int> myvec = {5, 4, 6, 5, 5};  // Yes
 
     std::cout << (is_bitonic(myvec) == true ? "Yes, it is bitonic." : "No, it is not bitonic.");
     std::cout << std::endl << std::endl << std::flush;
