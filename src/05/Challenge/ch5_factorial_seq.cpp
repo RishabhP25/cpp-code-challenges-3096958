@@ -19,18 +19,32 @@ int print_factorials(int n){
     // Write your code here
     int factorial = 1;
 
+    std::cout << n << "!: ";
+
     for (int i = 1; i < n+1; i++) {
+        std::cout << factorial << " ";
         factorial *=i;
 
 
     }
+
+    std::cout << std::endl << std::endl << std::flush;
+
+    std::cout << "The factorial of " << n << ": " << factorial << std::endl << std::endl << std::flush;
 
     return factorial;
 }
 
 // Main function
 int main(){
-    
-    std::cout << print_factorials(10) << std::endl << std::endl << std::flush;
+    int n;
+    std::cout << "Enter a positive integer: " ;
+    std::cin >> n;
+
+    std::cout << std::endl << std::endl << std::flush;
+
+    print_factorials(n);
+
+    std::cout << std::endl << std::endl << std::flush;
     return 0;
 }
