@@ -7,6 +7,7 @@
 // All numbers between 0 and 255.
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <string>
 
@@ -18,6 +19,23 @@
 bool is_valid_ip(std::string ip){
 
     // Write your code here
+    std::stringstream ss(ip);
+    std::vector<std::string> tokens;
+
+    // Split the string using ","
+    while (std::getline(ss, ip, '.')) {
+        tokens.push_back(ip);
+    }
+
+    if (tokens.size() == 4) {
+        for (const auto& token : tokens) {
+            int part = std::stoi(token);
+            if (part < 0 || part > 255) {
+                return false;
+            }
+        }
+        return true; 
+    }
 
     return false;
 }
@@ -30,4 +48,5 @@ int main(){
     std::getline(std::cin,s);
     std::cout << " \n" << s << (is_valid_ip(s) ? " is" : " is not" ) << " a valid IP address.\n\n";
     return 0;
+
 }
