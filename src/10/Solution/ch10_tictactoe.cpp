@@ -34,7 +34,7 @@ void ask_for_move(char game[][3], char mark){
 //           mark: The AI's mark: 'X' or 'O'.
 // Returns: Nothing.
 
-// #define TWO_PLAYERS
+// #define TWO_PLAYERS  
 void make_move(char game[][3], char mark){ 
     #ifdef TWO_PLAYERS
     ask_for_move(game,mark);
@@ -44,7 +44,7 @@ void make_move(char game[][3], char mark){
     char opponent = mark == 'X' ? 'O' : 'X';
 
     // Horizontal and vertical victories
-    for(i=0; i<3; i++){ 
+    for(i=0; i<3; i++){  
         if(game[i][0]== ' ' && game[i][1]==mark && game[i][2]==mark){
             game[i][0] = mark;
             return;
